@@ -2,93 +2,14 @@ import React, { useState } from "react";
 import UpdateProduct from "./UpdateProduct";
 import DeleteProduct from "./DeleteProduct";
 import ProductDetails from "./ProductDetails";
+import table from "../tabledata";
 
 const ProductTable = () => {
   const [showDetails, setShowDetails] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState(table);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-
-  const table = [
-    {
-      title: "Smartphone",
-      price: 499.99,
-      description:
-        "The latest model of our flagship smartphone with advanced features and high-quality camera.",
-      category: "Electronics",
-    },
-    {
-      title: "Laptop",
-      price: 899.99,
-      description:
-        "A powerful laptop with a fast processor and a high-resolution display for ivity and entertainment.",
-      category: "Electronics",
-    },
-    {
-      title: "Running Shoes",
-      price: 79.99,
-      description:
-        "Comfortable and stylish running shoes with excellent cushioning and support.",
-      category: "Sports & Outdoors",
-    },
-    {
-      title: "Cookware Set",
-      price: 149.99,
-      description:
-        "A complete set of non-stick cookware for your kitchen, perfect for cooking a variety of meals.",
-      category: "Home & Kitchen",
-    },
-    {
-      title: "Smartphone",
-      price: 499.99,
-      description:
-        "The latest model of our flagship smartphone with advanced features and high-quality camera.",
-      category: "Electronics",
-    },
-    {
-      title: "Laptop",
-      price: 899.99,
-      description:
-        "A powerful laptop with a fast processor and a high-resolution display for ivity and entertainment.",
-      category: "Electronics",
-    },
-    {
-      title: "Running Shoes",
-      price: 79.99,
-      description:
-        "Comfortable and stylish running shoes with excellent cushioning and support.",
-      category: "Sports & Outdoors",
-    },
-    {
-      title: "Cookware Set",
-      price: 149.99,
-      description:
-        "A complete set of non-stick cookware for your kitchen, perfect for cooking a variety of meals.",
-      category: "Home & Kitchen",
-    },
-    {
-      title: "Digital Camera",
-      price: 349.99,
-      description:
-        "Capture high-quality photos and videos with this digital camera, perfect for photography enthusiasts.",
-      category: "Electronics",
-    },
-    {
-      title: "Sneakers",
-      price: 69.99,
-      description:
-        "Stylish and comfortable sneakers for casual wear or light sports activities.",
-      category: "Fashion",
-    },
-    {
-      title: "Coffee Maker",
-      price: 59.99,
-      description:
-        "Brew your favorite coffee at home with this easy-to-use coffee maker.",
-      category: "Home & Kitchen",
-    },
-  ];
 
   const handleViewDetails = (product) => {
     setSelectedProduct(product);
@@ -115,7 +36,7 @@ const ProductTable = () => {
       setProducts(updatedProducts);
 
       // Close the update form
-      setShowUpdateForm(false);
+      setShowUpdateForm(true);
 
       // Display a success message or perform any other desired actions
       console.log("Product updated successfully:", product);
@@ -185,7 +106,7 @@ const ProductTable = () => {
         />
       )}
 
-      {showUpdateForm && selectedProduct && (
+      {showUpdateForm && setProducts && (
         <UpdateProduct
           product={selectedProduct}
           onUpdate={handleUpdateProduct}
