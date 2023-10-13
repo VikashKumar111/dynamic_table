@@ -8,7 +8,6 @@ const ProductTable = () => {
   const [showDetails, setShowDetails] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
-  const [products, setProducts] = useState(table);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   const handleViewDetails = (product) => {
@@ -22,43 +21,22 @@ const ProductTable = () => {
   };
 
   const handleUpdateProduct = (product) => {
-    // Find the index of the product to update in the products array
-    const updatedIndex = products.findIndex((p) => p.id === product.id);
-
-    if (updatedIndex !== -1) {
-      // Create a copy of the products array to avoid mutating state directly
-      const updatedProducts = [...products];
-
-      // Replace the old product with the updated product
-      updatedProducts[updatedIndex] = product;
-
-      // Update the state with the new products array
-      setProducts(updatedProducts);
-
-      // Close the update form
-      setShowUpdateForm(true);
-
-      // Display a success message or perform any other desired actions
-      console.log("Product updated successfully:", product);
-    } else {
-      // Handle the case where the product to update was not found
-      console.error("Product not found for update.");
-    }
+    setSelectedProduct(product);
+    setShowUpdateForm(true);
   };
 
   const handleCancelUpdate = () => {
+    setSelectedProduct(null);
     setShowUpdateForm(false);
   };
 
+  const handleEditedProduct = (editedProduct) => {
+    setSelectedProduct(editedProduct);
+  };
+
   const handleDeleteProduct = (product) => {
-    // Filter out the product to be deleted from the products array
-    const updatedProducts = products.filter((p) => p.id !== product.id);
-
-    // Update the state with the new products array (effectively removing the product)
-    setProducts(updatedProducts);
-
-    // Close the delete dialog
-    setShowDeleteDialog(false);
+    setSelectedProduct(product);
+    setShowDeleteDialog(true);
   };
 
   const handleCancelDelete = () => {
@@ -67,6 +45,13 @@ const ProductTable = () => {
 
   return (
     <div>
+      {showUpdateForm && selectedProduct && (
+        <UpdateProduct
+          product={selectedProduct}
+          onUpdate={handleEditedProduct}
+          onCancel={handleCancelUpdate}
+        />
+      )}
       <table>
         <thead>
           <tr>
@@ -106,13 +91,6 @@ const ProductTable = () => {
         />
       )}
 
-      {showUpdateForm && setProducts && (
-        <UpdateProduct
-          product={selectedProduct}
-          onUpdate={handleUpdateProduct}
-          onCancel={handleCancelUpdate}
-        />
-      )}
       {showDeleteDialog && selectedProduct && (
         <DeleteProduct
           product={selectedProduct}

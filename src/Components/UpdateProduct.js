@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
 
 const UpdateProduct = ({ product, onUpdate, onCancel }) => {
-  const [editedProduct, setEditedProduct] = useState({ ...product });
+    // Use object destructuring to extract properties from product
+    
+    const { title, price, description, category } = product;
+  
+
+  // Use a single state object to store the edited product
+  const [editedProduct, setEditedProduct] = useState({ title, price, description, category });
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name ,value } = e.target;
+    // Update the editedProduct state with the changed value
     setEditedProduct({
       ...editedProduct,
       [name]: value,
@@ -20,32 +27,30 @@ const UpdateProduct = ({ product, onUpdate, onCancel }) => {
       <div className="modal-content">
         <h2>Edit Product</h2>
         <form>
-          <label htmlFor="title">Title:</label>
-          <input
-            type="text"
+          {/* Create a reusable input field component to reduce repetition */}
+          <InputField
+            label="Title"
             name="title"
             value={editedProduct.title}
             onChange={handleInputChange}
           />
 
-          <label htmlFor="price">Price:</label>
-          <input
-            type="number"
+          <InputField
+            label="Price"
             name="price"
             value={editedProduct.price}
             onChange={handleInputChange}
           />
 
-          <label htmlFor="description">Description:</label>
-          <textarea
+          <InputField
+            label="Description"
             name="description"
             value={editedProduct.description}
             onChange={handleInputChange}
           />
 
-          <label htmlFor="category">Category:</label>
-          <input
-            type="text"
+          <InputField
+            label="Category"
             name="category"
             value={editedProduct.category}
             onChange={handleInputChange}
@@ -58,5 +63,18 @@ const UpdateProduct = ({ product, onUpdate, onCancel }) => {
     </div>
   );
 };
+
+// Create a reusable input field component
+const InputField = ({ label, name, value, onChange }) => (
+  <div>
+    <label htmlFor={name}>{label}:</label>
+    <input
+      type="text"
+      name={name}
+      value={value}
+      onChange={onChange}
+    />
+  </div>
+);
 
 export default UpdateProduct;
