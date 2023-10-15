@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
-const UpdateProduct = ({ product, onUpdate, onCancel }) => {
+const UpdateProduct = (props) => {
     // Use object destructuring to extract properties from product
     
-    const { title, price, description, category } = product;
+    const { title, price, description, category } = props.product;
   
 
   // Use a single state object to store the edited product
@@ -18,8 +18,13 @@ const UpdateProduct = ({ product, onUpdate, onCancel }) => {
     });
   };
 
+  const handleTitleChange = (e) => {
+      setEditedProduct(e.target.value);
+  };
+
+
   const handleUpdate = () => {
-    onUpdate(editedProduct);
+    props.onUpdate(editedProduct);
   };
 
   return (
@@ -32,7 +37,7 @@ const UpdateProduct = ({ product, onUpdate, onCancel }) => {
             label="Title"
             name="title"
             value={editedProduct.title}
-            onChange={handleInputChange}
+            onChange={handleTitleChange}
           />
 
           <InputField
@@ -57,7 +62,7 @@ const UpdateProduct = ({ product, onUpdate, onCancel }) => {
           />
 
           <button onClick={handleUpdate}>Update</button>
-          <button onClick={onCancel}>Cancel</button>
+          <button onClick={props.onCancel}>Cancel</button>
         </form>
       </div>
     </div>
